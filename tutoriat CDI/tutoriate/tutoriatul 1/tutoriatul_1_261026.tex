@@ -1,0 +1,259 @@
+% !TeX program = xelatex
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[romanian]{babel}
+\usepackage{microtype}
+\usepackage[a4paper,margin=2.3cm]{geometry}
+\usepackage{parskip}
+\usepackage{enumitem}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{bm}
+\usepackage{cancel}
+
+\usepackage{fontspec}
+\setmainfont{Constantia}
+\newfontfamily\constantiaheading{Constantia}[BoldFont = Constantia Bold]
+
+% Pentru randarea corectă a matematicii cu XeLaTeX
+\usepackage{unicode-math}
+\setmathfont{Latin Modern Math} 
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definiție}[section]
+\newtheorem{example}[definition]{Exemplu}
+\newtheorem{exercise}[definition]{Exercițiu}
+\newtheorem{remark}[definition]{Observație}
+
+\theoremstyle{plain}
+\newtheorem{theorem}[definition]{Teoremă}
+\newtheorem{proposition}[definition]{Propoziție}
+\newtheorem{lemma}[definition]{Lemă}
+\newtheorem{corollary}[definition]{Corolar}
+
+\theoremstyle{remark}
+\newtheorem*{solution}{Soluție}
+\renewcommand{\proofname}{Demonstrație}
+
+\usepackage[hidelinks]{hyperref}
+\usepackage{cleveref}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\To}{\longrightarrow}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\supp}{supp}
+
+\title{\textbf{Tutoriatul 1 de Calcul Diferențial și Integral}}
+\author{}
+\date{26.10.2026}
+
+\begin{document}
+\maketitle
+
+Hello tuturor! Aici este primul tutoriat de CDI, pe care l-am ținut pe 26.10.2026.
+Am adăugat completări în explicații, teoria structurată mai digerabil pentru voi.
+De asemenea nu uitați să aruncați un ochi și pe folderul de materiale de pe acest Repo.
+
+\section{Limite de șiruri}
+
+\begin{definition}[Limita unui șir]
+    Fie $(a_n)_{n \in \N}$ un șir de numere reale și $L \in \overline{\R}$. Spunem că $L$ este \textit{limita} șirului $(a_n)_{n \in \N}$ (și scriem $\lim_{n \to \infty} a_n = L$) dacă pentru orice $\eps > 0$ există $n_\eps \in \N$ astfel încât pentru orice $n \ge n_\eps$ avem:
+    \[
+        |a_n - L| < \eps.
+    \]
+\end{definition}
+
+\begin{remark} 
+    Acel $n_\eps$ mai este cunoscut și ca rangul de la care „distanța” (sau modulul) dintre orice termen al șirului și limita sa devine oricât de mică. Modulul din definiție reprezintă metrica pe mulțimea $\R$.
+\end{remark}
+
+\section{Criterii de convergență pentru ȘIRURI}
+
+\begin{theorem}[Criteriul cleștelui / „Cei doi jandarmi”]
+    Fie $(x_n)_{n \in \N}$, $(y_n)_{n \in \N}$, $(z_n)_{n \in \N}$ trei șiruri de numere reale. Dacă $\lim_{n \to \infty} x_n = \lim_{n \to \infty} z_n = L$ și există o relație de ordine $x_n \leq y_n \leq z_n$ pentru orice $n \in \N$, atunci și șirul $(y_n)_{n \in \N}$ are limita $L$:
+    \[
+      \lim_{n \to \infty} y_n = L.
+    \]
+\end{theorem}
+
+\begin{theorem}[Teorema lui Weierstrass]
+    Orice șir mărginit și monoton (descrescător sau crescător) este \textbf{convergent}.
+\end{theorem}
+
+\begin{remark}
+    Inversa acestei teoreme nu este întotdeauna adevărată. Există șiruri convergente care nu sunt monotone, de exemplu, $(a_n)_{n \in \mathbb{N}}, \ unde\  a_n = \frac{(-1)^n}{n}$, care are limita $0$ când $n$, tinde la infinit.
+\end{remark}
+
+\begin{theorem}[Criteriul general de convergență al lui Cauchy]
+    Șirul $(x_n)_{n \in \N}$ este convergent dacă și numai dacă pentru orice $\eps > 0$, există $n_\eps \in \N$ astfel încât pentru orice $m, n \ge n_\eps$ avem:
+    \[
+        |x_n - x_m| < \eps.
+    \]
+\end{theorem}
+
+\begin{theorem}[Criteriul raportului pentru șiruri (D'Alembert)]
+    Fie $(x_n)_{n \in \N}$ un șir cu termeni strict pozitivi. Dacă $\lim_{n \to \infty} \frac{x_{n+1}}{x_n} = l$, atunci:
+    \begin{itemize}
+        \item Dacă $l < 1$, $\lim_{n \to \infty} x_n = 0$.
+        \item Dacă $l > 1$ (sau $l = \infty$), $\lim_{n \to \infty} x_n = \infty$.
+        \item Dacă $l = 1$, criteriul nu decide.
+    \end{itemize}
+\end{theorem}
+
+\begin{theorem}[Criteriul rădăcinii pentru șiruri (Cauchy)]
+    Fie $(x_n)_{n \in \N}$ un șir cu termeni strict pozitivi. Dacă $\lim_{n \to \infty} \sqrt[n]{x_n} = l$, atunci:
+    \begin{itemize}
+        \item Dacă $l < 1$, $\lim_{n \to \infty} x_n = 0$.
+        \item Dacă $l > 1$, $\lim_{n \to \infty} x_n = \infty$.
+        \item Dacă $l = 1$, criteriul nu decide.
+    \end{itemize}
+\end{theorem}
+
+\begin{remark}[Legătura dintre raport și rădăcină]
+    Dacă limita raportului există, atunci ea este egală cu limita rădăcinii de ordin $n$:
+    \[
+        \text{Dacă } \lim_{n \to \infty} \frac{x_{n+1}}{x_n} = l \text{, atunci } \lim_{n \to \infty} \sqrt[n]{x_n} = l.
+    \]
+\end{remark}
+
+\begin{theorem}[Lema lui Stolz-Cesàro (Cazul $0/0$)]
+    Fie $(a_n)$ și $(b_n)$ două șiruri de numere reale, cu $(b_n)$ strict crescător și nemărginit, sau cu $\lim a_n = \lim b_n = 0$ și $(b_n)$ strict monoton. Dacă există limita:
+    \[
+        \lim_{n \to \infty} \frac{a_{n+1} - a_n}{b_{n+1} - b_n} = L,
+    \]
+    atunci există și $\lim_{n \to \infty} \frac{a_n}{b_n} = L$.
+\end{theorem}
+
+\section{Serii de numere reale}
+
+\begin{definition}[Convergența seriei]
+    Fie $(a_n)_{n \in \N}$ un șir de numere reale. Seria asociată acestui șir se definește ca limita șirului sumelor parțiale:
+    \[
+        \sum_{n=0}^\infty a_n = \lim_{n \to \infty} \sum_{k=0}^n a_k.
+    \]
+    Dacă această limită este $\pm \infty$ (sau nu există), seria se numește \textbf{divergentă}. Dacă limita este un număr real $x \in \R$, seria se numește \textbf{convergentă}.
+\end{definition}
+
+\section{Criterii de convergență pentru SERII}
+
+\begin{theorem}[Condiția necesară de convergență]
+    Dacă $\lim_{n \to \infty} a_n \neq 0$, atunci seria $\sum_{n=1}^\infty a_n$ este \textbf{divergentă}.
+\end{theorem}
+
+\begin{theorem}[Criteriul comparației (majorării/minorării)]
+    Fie seriile cu termeni pozitivi $\sum a_n$ și $\sum b_n$.
+    \begin{itemize}
+        \item Dacă $a_n \leq b_n$ pentru orice $n \ge N$ și $\sum b_n$ este convergentă, atunci $\sum a_n$ este convergentă.
+        \item Dacă $a_n \geq b_n$ pentru orice $n \ge N$ și $\sum b_n$ este divergentă, atunci $\sum a_n$ este divergentă.
+    \end{itemize}
+\end{theorem}
+
+\begin{theorem}[Criteriul comparației cu limită]
+    Fie seriile cu termeni pozitivi $\sum a_n$ și $\sum b_n$ și fie limita $\lim_{n \to \infty} \frac{a_n}{b_n} = l \in (0, \infty)$. Atunci cele două serii au aceeași natură (ambele converg sau ambele diverg).
+\end{theorem}
+
+\begin{theorem}[Criteriul raportului (D'Alembert)]
+    Fie seria cu termeni pozitivi $\sum a_n$ și fie limita $l = \lim_{n \to \infty} \frac{a_{n+1}}{a_n}$.
+    \begin{itemize}
+        \item Dacă $l < 1$, seria este \textbf{convergentă}.
+        \item Dacă $l > 1$ (sau $l=\infty$), seria este \textbf{divergentă}.
+        \item Dacă $l = 1$, criteriul nu decide.
+    \end{itemize}
+\end{theorem}
+
+\begin{theorem}[Criteriul rădăcinii (Cauchy)]
+    Fie seria cu termeni pozitivi $\sum a_n$ și fie limita $l = \lim_{n \to \infty} \sqrt[n]{a_n}$.
+    \begin{itemize}
+        \item Dacă $l < 1$, seria este \textbf{convergentă}.
+        \item Dacă $l > 1$, seria este \textbf{divergentă}.
+        \item Dacă $l = 1$, criteriul nu decide.
+    \end{itemize}
+\end{theorem}
+
+\begin{theorem}[Criteriul lui Raabe-Duhamel]
+    Fie seria cu termeni pozitivi $\sum a_n$ și fie limita $l = \lim_{n \to \infty} n \left( \frac{a_n}{a_{n+1}} - 1 \right)$.
+    \begin{itemize}
+        \item Dacă $l > 1$, seria este \textbf{convergentă}.
+        \item Dacă $l < 1$, seria este \textbf{divergentă}.
+        \item Dacă $l = 1$, criteriul nu decide.
+    \end{itemize}
+\end{theorem}
+
+\begin{theorem}[Criteriul de condensare Cauchy]
+    Fie $(a_n)_{n \in \N}$ un șir descrescător de numere reale pozitive ($a_n \ge a_{n+1} > 0$). Atunci seria $\sum_{n=1}^\infty a_n$ are aceeași natură cu seria $\sum_{n=1}^\infty 2^n a_{2^n}$.
+\end{theorem}
+
+\begin{theorem}[Criteriul lui Leibniz (serii alternate)]
+    Fie $(x_n)_{n \in \N}$ un șir descrescător la $0$ (adică $x_n \searrow 0$). Atunci seria alternată $\sum_{n=1}^\infty (-1)^n x_n$ este \textbf{convergentă}.
+\end{theorem}
+
+\begin{theorem}[Criteriile lui Dirichlet și Abel]
+    \textbf{Dirichlet:} Dacă șirul sumelor parțiale ale seriei $\sum a_n$ este mărginit, iar $(b_n)$ este un șir monoton descrescător la $0$, atunci seria $\sum a_n b_n$ este convergentă.
+    \par\smallskip
+    \textbf{Abel:} Dacă seria $\sum a_n$ este convergentă, iar $(b_n)$ este un șir monoton și mărginit, atunci seria $\sum a_n b_n$ este convergentă.
+\end{theorem}
+
+\begin{theorem}[Convergența absolută]
+    Dacă seria $\sum |a_n|$ este convergentă, atunci și seria $\sum a_n$ este convergentă (spunem că seria este \textit{absolut convergentă}).
+\end{theorem}
+
+\section{Serii remarcabile}
+
+\begin{remark}[Serii fundamentale]
+    \begin{enumerate}[label=\arabic*)]
+        \item \textbf{Seria geometrică:} $\displaystyle\sum_{n=0}^\infty q^n = \frac{1}{1-q}$ pentru $q \in (-1, 1)$ (convergentă). Dacă $q \notin (-1, 1)$, seria este divergentă.
+        \item \textbf{Seria armonică generalizată (Riemann):} $\displaystyle\sum_{n=1}^\infty \frac{1}{n^\alpha}$ este convergentă dacă $\alpha > 1$ și divergentă dacă $\alpha \le 1$.
+        \item \textbf{Constanta Euler-Mascheroni:} Șirul $\displaystyle\left(\sum_{k=1}^n \frac{1}{k}\right) - \ln n$ este convergent la $\gamma \approx 0.577$.
+    \end{enumerate}
+\end{remark}
+
+\section{Exemple și aplicații din tutoriat}
+
+\begin{example}[Aplicare Criteriul de Condensare Cauchy]
+    Studiem seria $\displaystyle \sum_{n \ge 3} \frac{\ln n}{n}$. Aplicăm criteriul de condensare:
+    \[
+        \sum_{n \ge 3} x_n \sim \sum_{n \ge 3} 2^n x_{2^n} = \sum_{n \ge 3} 2^n \frac{\ln 2^n}{2^n} = \sum_{n \ge 3} \ln 2^n = \sum_{n \ge 3} n \ln 2.
+    \]
+    Calculăm limita termenului general: $\lim_{n \to \infty} n \ln 2 = \infty$. Deoarece termenul general nu tinde la $0$, seria este divergentă. Astfel, seria originală nu este nici măcar absolut convergentă.
+\end{example}
+
+\begin{example}[Aplicare Criteriul D'Alembert]
+    Studiem natura seriei \(\displaystyle \sum_{n \ge 1} x^n \frac{a(a+1)\dots(a+n)}{(n+3)!}\).
+    Calculăm limita raportului:
+    \[
+        \lim_{n \to \infty} \frac{a_{n+1}}{a_n} = \lim_{n \to \infty} \frac{x^{n+1} \frac{a(a+1)\dots(a+n)(a+n+1)}{(n+4)!}}{x^n \frac{a(a+1)\dots(a+n)}{(n+3)!}} = |x| \lim_{n \to \infty} \frac{a+n+1}{n+4} = |x|.
+    \]
+    \begin{itemize}
+        \item Dacă $|x| < 1 \implies$ seria este \textbf{convergentă}.
+        \item Dacă $|x| > 1 \implies$ seria este \textbf{divergentă}.
+    \end{itemize}
+\end{example}
+
+\section{Resurse utile}
+
+Pentru a aprofunda noțiunile de analiză matematică, a exersa suplimentar și pentru a vizualiza mai bine comportamentul șirurilor și funcțiilor, vă recomandăm următoarele resurse:
+
+\begin{itemize}
+    \item \textbf{Paul's Online Math Notes (Calculus I):} O resursă excelentă (în limba engleză) cu teorie structurată, exemple rezolvate pas cu pas și exerciții propuse. Foarte utilă pentru recapitularea rapidă a formulelor și demonstrațiilor.\\
+    \href{https://tutorial.math.lamar.edu/classes/calci/calci.aspx}{tutorial.math.lamar.edu/classes/calci/calci.aspx}. Chiar ajuta foarte mult exercițiile de aici și aveți și explicații pas  cu pas pentru fiecare în parte, dar puteți să le ascundeți pentru a lucra și singuri iar abia apoi să vă corectați.
+
+    \item \textbf{GeoGebra:} Un instrument gratuit și extrem de intuitiv pentru vizualizarea grafică. Vă ajută să înțelegeți concepte precum limite, continuitate, derivate și integrale desenând funcțiile pe ecran.\\
+    \href{https://www.geogebra.org/}{www.geogebra.org}
+
+    \item \textbf{Desmos:} Un calculator grafic online rapid, curat și ușor de folosit. Perfect pentru a verifica rapid cum arată o funcție, o limită sau pentru a experimenta cu diferite valori ale parametrilor.\\
+    \href{https://www.desmos.com/calculator}{www.desmos.com/calculator}
+
+    GeoGebra și Desmos vă vor ajuta mult pentru grafice, mai ales cele 3D cu tot felul de elipsoide, conuri, panze intercalate (chestii fancy, veți face și la seminar mai apoi). DARRRRR exersați si cu creionul pe hârtie pentru că va ajută tare mult pentru examen ca și voi să puteți schematiza un pic problema.
+
+    \textbf{NU UITAȚI SĂ VERIFICAȚI SECȚIUNEA DE MATERIALE DE PE GIT!!!! Am pus EXTRA niște cărți de referință pentru cei pasionați/interesați. Also, în tao aveți și exemple teoretice pentru unele teoreme.}
+\end{itemize}
+
+\end{document}
